@@ -1,0 +1,79 @@
+:root {
+  --image-len: 800px;
+  --nav-btn-size: 60px;
+}
+
+body {
+  margin: 0px;
+}
+
+.hidden {
+  display: none;
+}
+
+h1 {
+  text-align: center;
+}
+
+.image-carousel {
+  display: flex;
+  position: relative;
+  left: calc(50% - var(--image-len) / 2);
+  transition: transform 300ms ease-in-out;
+  z-index: -1;
+}
+
+.image-carousel img {
+  width: var(--image-len);
+  height: var(--image-len);
+  transition: opacity 300ms ease-in-out;
+}
+
+.unfocused-image {
+  opacity: 0.3;
+}
+
+.nav-btn {
+  position: absolute;
+  top: calc(calc(var(--image-len) / 2) - var(--nav-btn-size) / 2);
+  height: var(--nav-btn-size);
+  width: var(--nav-btn-size);
+  font-size: calc(var(--nav-btn-size) - 20px);
+  border: 3px solid black;
+  background-color: white;
+  border-radius: var(--nav-btn-size);
+  box-shadow: 0px 3px 2px rgb(49, 49, 49);
+  padding-bottom: 5px;
+  transition: transform 200ms ease-in-out;
+}
+
+.nav-btn:hover {
+  background-color: black;
+  color: white;
+  z-index: 3;
+}
+
+.prev-btn {
+  left: calc(49.5% - var(--nav-btn-size) - var(--image-len) / 2);
+}
+
+.next-btn {
+  left: calc(50.5% + var(--image-len) / 2);
+}
+
+.image-nav {
+  display: flex;
+  position: absolute;
+  top: 65%;
+  justify-content: center;
+  width: 100vw;
+  gap: 20px;
+}
+
+.image-nav img {
+  --length: 100px;
+
+  height: var(--length);
+  width: var(--length);
+  border-radius: var(--length);
+}
