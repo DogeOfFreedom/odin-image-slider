@@ -9,6 +9,45 @@ import img6 from "../images/20230323_190955.jpg";
 const imageSrcs = [img1, img2, img3, img4, img5, img6];
 const imageCarousel = document.querySelector(".image-carousel");
 const imageNav = document.querySelector(".image-nav");
+const imageLength = 800;
+const numImages = imageSrcs.length;
+let currentLocation = 0;
+
+const changeImgOpacities = (id) => {
+  // Set all images to opaque
+  const imgs = document.querySelectorAll(".image-carousel img");
+  imgs.forEach((img) => {
+    // eslint-disable-next-line no-param-reassign
+    img.className = "unfocused-image";
+  });
+
+  const navImgs = document.querySelectorAll(".image-nav img");
+  navImgs.forEach((navImg) => {
+    // eslint-disable-next-line no-param-reassign
+    navImg.className = "unfocused-image";
+  });
+
+  // Fully show focused image
+  const img = document.querySelector(`#image${id}`);
+  img.classList.remove("unfocused-image");
+
+  const navImg = document.querySelector(`.image-nav img[value="${id}"]`);
+  navImg.classList.remove("unfocused-image");
+};
+
+const moveToSelectedImg = (id) => {
+  const otherNavImgs = document.querySelectorAll(".image-nav img");
+  otherNavImgs.forEach((img) => {
+    img.setAttribute("data-selected", "false");
+  });
+
+  const selectedNavImg = document.querySelector(
+    `.image-nav img[value="${id}"]`,
+  );
+  selectedNavImg.setAttribute("data-selected", "true");
+  imageCarousel.style.transform = `translate(${-imageLength * (id - 1)}px)`;
+  changeImgOpacities(id);
+};
 
 let count = 1;
 imageSrcs.forEach((imageSrc) => {
@@ -21,30 +60,16 @@ imageSrcs.forEach((imageSrc) => {
   const navImage = document.createElement("img");
   navImage.src = imageSrc;
   navImage.setAttribute("value", count);
+  navImage.setAttribute("data-selected", "false");
+  navImage.addEventListener("click", () => {
+    moveToSelectedImg(navImage.getAttribute("value"));
+  });
   imageNav.appendChild(navImage);
 
   count += 1;
 });
 
-const imageLength = 800;
-let currentLocation = 0;
-
-const numImages = imageSrcs.length;
-
 let index = 1;
-const changeImgOpacities = () => {
-  // Set all images to opaque
-  const imgs = document.querySelectorAll(".image-carousel img");
-  imgs.forEach((img) => {
-    // eslint-disable-next-line no-param-reassign
-    img.className = "unfocused-image";
-  });
-
-  // Fully show focused image
-  const img = document.querySelector(`#image${index}`);
-  img.classList.remove("unfocused-image");
-};
-
 const prevBtn = document.querySelector(".prev-btn");
 const nextBtn = document.querySelector(".next-btn");
 prevBtn.addEventListener("click", () => {
@@ -61,7 +86,7 @@ prevBtn.addEventListener("click", () => {
   if (index === 1) {
     prevBtn.classList.add("hidden");
   }
-  changeImgOpacities();
+  changeImgOpacities(index);
 });
 
 nextBtn.addEventListener("click", () => {
@@ -78,7 +103,7 @@ nextBtn.addEventListener("click", () => {
   if (index === numImages) {
     nextBtn.classList.add("hidden");
   }
-  changeImgOpacities();
+  changeImgOpacities(index);
 });
 
-changeImgOpacities();
+changeImgOpacities(index);
